@@ -196,7 +196,7 @@ def build_hour_ring(group_name, minor_fast=False, mag=1.0, dy=0.0, unrot_expr=No
         deg = h * 30
         r_rot = radial_rot(deg)
         ang_expr = f'({cfg("hour_mode")} == "0" ? 0 : ({cfg("hour_mode")} == "1" ? {r_rot} : {deg}))'
-        bw, bh, sz = (48, 34, 24.5) if unrot_expr else (36, 26, 16.5)
+        bw, bh, sz = (52, 36, 27.5) if unrot_expr else (36, 26, 16.5)
         h_nodes.append(dial_numeral(deg, RH, str(h), sz, bw, bh, TXT, "h_weight", H_WIDTH_EXPR, angle_expr=ang_expr, minor_fast=minor_fast))
     rm = ' renderMode="SOURCE"' if unrot_expr else ""
     tf = f'\n          <Transform target="angle" value=\'0-({unrot_expr})\'/>' if unrot_expr else ""
@@ -211,11 +211,24 @@ def build_minute_ring(group_name, minor_fast=True, mag=1.0, dy=0.0, unrot_expr=N
         five = (m % 5 == 0)
         r_rot = radial_rot(deg)
         col = TXT if five else DIMT
-        bw, bh, sz = (44, 30, 19.0) if unrot_expr else (26, 18, 10.5)
-        m_nodes.append(dial_numeral(deg, RM, f"{m:02d}", sz, bw, bh, col, "m_weight", M_WIDTH_EXPR, static_angle=r_rot, minor_fast=(minor_fast and not five)))
-        x1, y1 = pt(deg, (133 if five else 135.5) * S if unrot_expr else (134 if five else 136) * S)
-        x2, y2 = pt(deg, (142.5 if unrot_expr else 141) * S)
-        line = f'<Line startX="{f(x1)}" startY="{f(y1)}" endX="{f(x2)}" endY="{f(y2)}"><Stroke color="{TXT}" thickness="{f((1.6 if five else 1.0)*S*(1.55 if unrot_expr else 1.0))}" cap="BUTT"/></Line>'
+        bw, bh, sz = (46, 32, 22.0) if unrot_expr else (26, 18, 10.5)
+        if not unrot_expr:
+            m_nodes.append(dial_numeral(deg, RM, f"{m:02d}", sz, bw, bh, col, "m_weight", M_WIDTH_EXPR, static_angle=r_rot, minor_fast=(minor_fast and not five)))
+        else:
+            cx, cy = pt(deg, RM)
+            x, y = round(cx - bw / 2), round(cy - bh / 2)
+            px, py = f"{(cx - x) / bw:.4f}", f"{(cy - y) / bh:.4f}"
+            vis_expr = f'(round([MINUTE]+[SECOND_MILLISECOND]/60) % 60) == {m} ? 255 : 0'
+            m_nodes.append(
+                f'          <Group name="{nm("ng")}" x="{x}" y="{y}" width="{bw}" height="{bh}" pivotX="{px}" pivotY="{py}" angle="{f(r_rot)}">\n'
+                f"            <Transform target=\"alpha\" value='{vis_expr}'/>\n"
+                f"            <Transform target=\"scaleX\" value='{M_WIDTH_EXPR}'/>\n"
+                f'{weight_font_nodes("nt", "m_weight", bw, bh, sz, col, f"{m:02d}", minor_fast=(minor_fast and not five))}\n'
+                f'          </Group>'
+            )
+        x1, y1 = pt(deg, (132.5 if five else 135) * S if unrot_expr else (134 if five else 136) * S)
+        x2, y2 = pt(deg, (143 if unrot_expr else 141) * S)
+        line = f'<Line startX="{f(x1)}" startY="{f(y1)}" endX="{f(x2)}" endY="{f(y2)}"><Stroke color="{TXT}" thickness="{f((1.6 if five else 1.0)*S*(1.75 if unrot_expr else 1.0))}" cap="BUTT"/></Line>'
         (m_maj_ticks if five else m_min_ticks).append(line)
     rm = ' renderMode="SOURCE"' if unrot_expr else ""
     tf = f'\n          <Transform target="angle" value=\'0-({unrot_expr})\'/>' if unrot_expr else ""
@@ -236,11 +249,24 @@ def build_second_ring(group_name, minor_fast=True, mag=1.0, dy=0.0, unrot_expr=N
         five = (s_idx % 5 == 0)
         r_rot = radial_rot(deg)
         col = ACC if five else DIMT
-        bw, bh, sz = (42, 28, 18.0) if unrot_expr else (26, 18, 11)
-        s_nodes.append(dial_numeral(deg, RS, f"{s_idx:02d}", sz, bw, bh, col, "s_weight", S_WIDTH_EXPR, static_angle=r_rot, minor_fast=(minor_fast and not five)))
-        x1, y1 = pt(deg, (175 if five else 177.5) * S if unrot_expr else (176 if five else 178) * S)
-        x2, y2 = pt(deg, (185 if unrot_expr else 184) * S)
-        line = f'<Line startX="{f(x1)}" startY="{f(y1)}" endX="{f(x2)}" endY="{f(y2)}"><Stroke color="{ACC}" thickness="{f((2.0 if five else 1.1)*S*(1.55 if unrot_expr else 1.0))}" cap="BUTT"/></Line>'
+        bw, bh, sz = (44, 30, 21.0) if unrot_expr else (26, 18, 11)
+        if not unrot_expr:
+            s_nodes.append(dial_numeral(deg, RS, f"{s_idx:02d}", sz, bw, bh, col, "s_weight", S_WIDTH_EXPR, static_angle=r_rot, minor_fast=(minor_fast and not five)))
+        else:
+            cx, cy = pt(deg, RS)
+            x, y = round(cx - bw / 2), round(cy - bh / 2)
+            px, py = f"{(cx - x) / bw:.4f}", f"{(cy - y) / bh:.4f}"
+            vis_expr = f'(round([SECOND_MILLISECOND]) % 60) == {s_idx} ? 255 : 0'
+            s_nodes.append(
+                f'          <Group name="{nm("ng")}" x="{x}" y="{y}" width="{bw}" height="{bh}" pivotX="{px}" pivotY="{py}" angle="{f(r_rot)}">\n'
+                f"            <Transform target=\"alpha\" value='{vis_expr}'/>\n"
+                f"            <Transform target=\"scaleX\" value='{S_WIDTH_EXPR}'/>\n"
+                f'{weight_font_nodes("nt", "s_weight", bw, bh, sz, col, f"{s_idx:02d}", minor_fast=(minor_fast and not five))}\n'
+                f'          </Group>'
+            )
+        x1, y1 = pt(deg, (174.5 if five else 177) * S if unrot_expr else (176 if five else 178) * S)
+        x2, y2 = pt(deg, (185.5 if unrot_expr else 184) * S)
+        line = f'<Line startX="{f(x1)}" startY="{f(y1)}" endX="{f(x2)}" endY="{f(y2)}"><Stroke color="{ACC}" thickness="{f((2.0 if five else 1.1)*S*(1.75 if unrot_expr else 1.0))}" cap="BUTT"/></Line>'
         (s_maj_ticks if five else s_min_ticks).append(line)
     rm = ' renderMode="SOURCE"' if unrot_expr else ""
     tf = f'\n          <Transform target="angle" value=\'0-({unrot_expr})\'/>' if unrot_expr else ""
@@ -271,11 +297,8 @@ def build_fixed_rings():
 def make_real_diopter_slit(lid, R, hw, hl, mag, ang_expr, ring_core_xml):
     """
     True optical liquid-glass diopter slit that glides smoothly over the stationary index ring:
-    - Capsule is significantly wider (2*hw) than the numeral beneath it so adjacent numerals enter/exit
-      through the peripheral caustic refraction zone, exaggerating the liquid-glass bend.
-    - Numerals inside the diopter are rendered at native magnified font sizes (size * mag) and
-      pre-scaled radial positions around the lens center (225, 225-R), so the numerals and ticks
-      are razor-sharp with zero bitmap upscaling blur while adjacent numerals enter/exit the wide edges!
+    - Capsule is just a few pixels wider (2*hw) than the lettering beneath it so adjacent numerals enter/exit
+      right at the peripheral caustic refraction rim, exaggerating the liquid-glass bend.
     - Pure frameless glass structure (radial caustic dome, edge refraction vignette, peripheral meniscus
       refraction band, curved meniscus sheen, and translucent specular rim — zero solid colored borders).
     """
@@ -286,34 +309,42 @@ def make_real_diopter_slit(lid, R, hw, hl, mag, ang_expr, ring_core_xml):
     cr = f(hw)
     cy = C - R
     cy_s = f(cy)
-    dy_core = round(R * (mag - 1.0), 2)
+    # Central opaque mask covers only the inner core width (hw - 4.5) so the outer 4.5px glass rim
+    # lets the adjacent base-ring numerals peek through and bend under the curved glass meniscus!
+    chw = round(hw - 4.2, 2)
+    chl = round(hl - 3.0, 2)
+    clx = f(C - chw)
+    cly = f(C - R - chl)
+    clw = f(2 * chw)
+    clh = f(2 * chl)
+    ccr = f(chw)
     glass_alpha = tern("glass_str", [155, 215, 255])
     return f'''      <Group name="lens_{lid}_orbit" x="0" y="0" width="450" height="450" pivotX="0.5" pivotY="0.5">
         <Transform target="angle" value='{ang_expr}'/>
         <PartDraw name="lens_{lid}_shadow" x="0" y="0" width="450" height="450"><RoundRectangle x="{f(C-hw+2.2)}" y="{f(C-R-hl+4.5)}" width="{lw}" height="{lh}" cornerRadiusX="{cr}" cornerRadiusY="{cr}"><Fill color="#50000000"/></RoundRectangle></PartDraw>
         <Group name="lens_{lid}_clip" x="0" y="0" width="450" height="450">
           <PartDraw name="lens_{lid}_mask" x="0" y="0" width="450" height="450" renderMode="MASK"><RoundRectangle x="{lx}" y="{ly}" width="{lw}" height="{lh}" cornerRadiusX="{cr}" cornerRadiusY="{cr}"><Fill color="#FFFFFFFF"/></RoundRectangle></PartDraw>
-          <PartDraw name="lens_{lid}_bg_theme" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Rectangle x="{f(C-hw-3)}" y="{f(C-R-hl-3)}" width="{f(2*hw+6)}" height="{f(2*hl+6)}"><Fill color="{BG}"/></Rectangle></PartDraw>
-          <PartDraw name="lens_{lid}_bg_black" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{sel("bg_mode", 1)}'/><Rectangle x="{f(C-hw-3)}" y="{f(C-R-hl-3)}" width="{f(2*hw+6)}" height="{f(2*hl+6)}"><Fill color="#FF000000"/></Rectangle></PartDraw>
-          <PartDraw name="lens_{lid}_band" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Rectangle x="{f(C-hw-3)}" y="{f(C-R-hl-3)}" width="{f(2*hw+6)}" height="{f(2*hl+6)}"><Fill color="#12FFFFFF"/></Rectangle></PartDraw>
+          <PartDraw name="lens_{lid}_bg_theme" x="0" y="0" width="450" height="450" renderMode="SOURCE"><RoundRectangle x="{clx}" y="{cly}" width="{clw}" height="{clh}" cornerRadiusX="{ccr}" cornerRadiusY="{ccr}"><Fill color="{BG}"/></RoundRectangle></PartDraw>
+          <PartDraw name="lens_{lid}_bg_black" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{sel("bg_mode", 1)}'/><RoundRectangle x="{clx}" y="{cly}" width="{clw}" height="{clh}" cornerRadiusX="{ccr}" cornerRadiusY="{ccr}"><Fill color="#FF000000"/></RoundRectangle></PartDraw>
+          <PartDraw name="lens_{lid}_band" x="0" y="0" width="450" height="450" renderMode="SOURCE"><RoundRectangle x="{clx}" y="{cly}" width="{clw}" height="{clh}" cornerRadiusX="{ccr}" cornerRadiusY="{ccr}"><Fill color="#12FFFFFF"/></RoundRectangle></PartDraw>
 {ring_core_xml}
           <PartDraw name="lens_{lid}_caustic" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{lx}" y="{ly}" width="{lw}" height="{lh}" cornerRadiusX="{cr}" cornerRadiusY="{cr}"><Fill color="#00FFFFFF"><RadialGradient centerX="{f(C-hw*0.16)}" centerY="{f(C-R-hl*0.20)}" radius="{f(hl*1.12)}" colors="#03FFFFFF #16FFFFFF #48FFFFFF" positions="0 0.62 1"/></Fill></RoundRectangle></PartDraw>
-          <PartDraw name="lens_{lid}_vignette" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{lx}" y="{ly}" width="{lw}" height="{lh}" cornerRadiusX="{cr}" cornerRadiusY="{cr}"><Stroke color="#88000000" thickness="6.0"/></RoundRectangle></PartDraw>
-          <PartDraw name="lens_{lid}_refract_in" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{f(C-hw+2.6)}" y="{f(C-R-hl+2.6)}" width="{f(2*hw-5.2)}" height="{f(2*hl-5.2)}" cornerRadiusX="{f(hw-2.6)}" cornerRadiusY="{f(hw-2.6)}"><Stroke color="#34FFFFFF" thickness="2.2"/></RoundRectangle></PartDraw>
-          <PartDraw name="lens_{lid}_refract_deep" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{f(C-hw+5.2)}" y="{f(C-R-hl+4.8)}" width="{f(2*hw-10.4)}" height="{f(2*hl-9.6)}" cornerRadiusX="{f(hw-5.2)}" cornerRadiusY="{f(hw-5.2)}"><Stroke color="#18FFFFFF" thickness="1.6"/></RoundRectangle></PartDraw>
-          <PartDraw name="lens_{lid}_meniscus" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{f(C-hw+3)}" y="{f(C-R-hl+2)}" width="{f(2*hw-6)}" height="{f(hl*0.88)}" cornerRadiusX="{f(hw-3)}" cornerRadiusY="{f(hw*0.58)}"><Fill color="#00FFFFFF"><LinearGradient startX="225" startY="{f(C-R-hl+2)}" endX="225" endY="{cy_s}" colors="#42FFFFFF #14FFFFFF #00FFFFFF" positions="0 0.54 1"/></Fill></RoundRectangle></PartDraw>
+          <PartDraw name="lens_{lid}_vignette" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{lx}" y="{ly}" width="{lw}" height="{lh}" cornerRadiusX="{cr}" cornerRadiusY="{cr}"><Stroke color="#88000000" thickness="5.5"/></RoundRectangle></PartDraw>
+          <PartDraw name="lens_{lid}_refract_in" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{f(C-hw+2.4)}" y="{f(C-R-hl+2.4)}" width="{f(2*hw-4.8)}" height="{f(2*hl-4.8)}" cornerRadiusX="{f(hw-2.4)}" cornerRadiusY="{f(hw-2.4)}"><Stroke color="#34FFFFFF" thickness="2.0"/></RoundRectangle></PartDraw>
+          <PartDraw name="lens_{lid}_refract_deep" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{f(C-hw+4.6)}" y="{f(C-R-hl+4.4)}" width="{f(2*hw-9.2)}" height="{f(2*hl-8.8)}" cornerRadiusX="{f(hw-4.6)}" cornerRadiusY="{f(hw-4.6)}"><Stroke color="#18FFFFFF" thickness="1.4"/></RoundRectangle></PartDraw>
+          <PartDraw name="lens_{lid}_meniscus" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{f(C-hw+2.5)}" y="{f(C-R-hl+2)}" width="{f(2*hw-5)}" height="{f(hl*0.88)}" cornerRadiusX="{f(hw-2.5)}" cornerRadiusY="{f(hw*0.58)}"><Fill color="#00FFFFFF"><LinearGradient startX="225" startY="{f(C-R-hl+2)}" endX="225" endY="{cy_s}" colors="#42FFFFFF #14FFFFFF #00FFFFFF" positions="0 0.54 1"/></Fill></RoundRectangle></PartDraw>
           <PartDraw name="lens_{lid}_spec" x="0" y="0" width="450" height="450" renderMode="SOURCE"><Transform target="alpha" value='{glass_alpha}'/><RoundRectangle x="{f(C-hw+0.8)}" y="{f(C-R-hl+0.8)}" width="{f(2*hw-1.6)}" height="{f(2*hl-1.6)}" cornerRadiusX="{f(hw-0.8)}" cornerRadiusY="{f(hw-0.8)}"><Stroke color="#FFFFFFFF" thickness="1.5"><LinearGradient startX="{lx}" startY="{ly}" endX="{f(C+hw)}" endY="{f(C-R+hl)}" colors="#A8FFFFFF #26FFFFFF #08FFFFFF #62FFFFFF" positions="0 0.3 0.7 1"/></Stroke></RoundRectangle></PartDraw>
         </Group>
       </Group>'''
 
 def build_three_lenses():
-    # Wider diopter capsules so adjacent numerals enter/exit the curved glass edge:
-    # - Hour lens:   RH=65.25,  hw=29.0 (width 58), hl=40.0 (height 80)
-    # - Minute lens: RM=132.75, hw=24.5 (width 49), hl=36.0 (height 72)
-    # - Second lens: RS=185.62, hw=22.0 (width 44), hl=29.0 (height 58)
-    lens_h = make_real_diopter_slit("H", RH, 29.0, 40.0, 1.0, ANG_H, build_hour_ring("z_ringH", minor_fast=False, mag=1.0, dy=0, unrot_expr=ANG_H))
-    lens_m = make_real_diopter_slit("M", RM, 24.5, 36.0, 1.0, ANG_M, build_minute_ring("z_ringM", minor_fast=True, mag=1.0, dy=0, unrot_expr=ANG_M))
-    lens_s = make_real_diopter_slit("S", RS, 22.0, 29.0, 1.0, ANG_S, build_second_ring("z_ringS", minor_fast=True, mag=1.0, dy=0, unrot_expr=ANG_S))
+    # Diopter capsules just a few pixels wider than the lettering underneath so adjacent numerals clip & bend right at the curved glass rim:
+    # - Hour lens:   RH=65.25,  hw=19.5 (width 39), hl=33.0 (height 66)
+    # - Minute lens: RM=132.75, hw=15.0 (width 30), hl=29.5 (height 59)
+    # - Second lens: RS=185.62, hw=13.5 (width 27), hl=24.0 (height 48)
+    lens_h = make_real_diopter_slit("H", RH, 19.5, 33.0, 1.0, ANG_H, build_hour_ring("z_ringH", minor_fast=False, mag=1.0, dy=0, unrot_expr=ANG_H))
+    lens_m = make_real_diopter_slit("M", RM, 15.0, 29.5, 1.0, ANG_M, build_minute_ring("z_ringM", minor_fast=True, mag=1.0, dy=0, unrot_expr=ANG_M))
+    lens_s = make_real_diopter_slit("S", RS, 13.5, 24.0, 1.0, ANG_S, build_second_ring("z_ringS", minor_fast=True, mag=1.0, dy=0, unrot_expr=ANG_S))
 
     hub = (
         f'      <PartDraw name="center_hub" x="0" y="0" width="450" height="450">'
@@ -363,7 +394,7 @@ def build_aod0_ring_h(gname, unrot_expr=None):
     nodes = []
     for h in range(1, 13):
         cx, cy = pt(h * 30, RH)
-        bw, bh, sz = (48, 34, 24.0) if unrot_expr else (36, 26, 16)
+        bw, bh, sz = (54, 38, 28.0) if unrot_expr else (36, 26, 16)
         nodes.append(f'            <PartText name="{nm(gname)}" x="{round(cx-bw/2)}" y="{round(cy-bh/2)}" width="{bw}" height="{bh}"><Text align="CENTER"><Font family="gsr_bold" size="{sz}" color="{TXT}">{h}</Font></Text></PartText>')
     rm = ' renderMode="SOURCE"' if unrot_expr else ""
     tf = f'\n            <Transform target="angle" value=\'0-({unrot_expr})\'/>' if unrot_expr else ""
@@ -376,8 +407,9 @@ def build_aod0_ring_m(gname, col_5, col_1, unrot_expr=None):
         five = (m % 5 == 0)
         cx, cy = pt(deg, RM)
         col = col_5 if five else col_1
-        bw, bh, sz = (44, 30, 19.0) if unrot_expr else (28, 20, 10.5)
-        nodes.append(f'            <PartText name="{nm(gname)}" x="{round(cx-bw/2)}" y="{round(cy-bh/2)}" width="{bw}" height="{bh}" pivotX="0.5" pivotY="0.5" angle="{f(radial_rot(deg))}"><Text align="CENTER"><Font family="gsr_bold" size="{sz}" color="{col}">{m:02d}</Font></Text></PartText>')
+        bw, bh, sz = (46, 32, 22.0) if unrot_expr else (28, 20, 10.5)
+        a_tf = f"<Transform target=\"alpha\" value='[MINUTE] == {m} ? 255 : 0'/>" if unrot_expr else ""
+        nodes.append(f'            <PartText name="{nm(gname)}" x="{round(cx-bw/2)}" y="{round(cy-bh/2)}" width="{bw}" height="{bh}" pivotX="0.5" pivotY="0.5" angle="{f(radial_rot(deg))}">{a_tf}<Text align="CENTER"><Font family="gsr_bold" size="{sz}" color="{col}">{m:02d}</Font></Text></PartText>')
     rm = ' renderMode="SOURCE"' if unrot_expr else ""
     tf = f'\n            <Transform target="angle" value=\'0-({unrot_expr})\'/>' if unrot_expr else ""
     return f'          <Group name="{gname}" x="0" y="0" width="450" height="450" pivotX="0.5" pivotY="0.5"{rm}>{tf}\n' + "\n".join(nodes) + "\n          </Group>"
@@ -389,8 +421,8 @@ for m in range(0, 60, 5):
     cx, cy = pt(deg, RM)
     aod0_base_m.append(f'          <PartText name="aod0_bm{m}" x="{round(cx-15)}" y="{round(cy-11)}" width="30" height="22" pivotX="0.5" pivotY="0.5" angle="{f(radial_rot(deg))}"><Text align="CENTER"><Font family="gsr_bold" size="10.5" color="{DIMT}">{m:02d}</Font></Text></PartText>')
 
-aod0_lens_h = make_real_diopter_slit("aodH", RH, 29.0, 40.0, 1.0, ANG_H, build_aod0_ring_h("aod0_zh", unrot_expr=ANG_H))
-aod0_lens_m = make_real_diopter_slit("aodM", RM, 24.5, 36.0, 1.0, "[MINUTE]*6", build_aod0_ring_m("aod0_zm", ACC, TXT, unrot_expr="[MINUTE]*6"))
+aod0_lens_h = make_real_diopter_slit("aodH", RH, 18.5, 32.5, 1.0, ANG_H, build_aod0_ring_h("aod0_zh", unrot_expr=ANG_H))
+aod0_lens_m = make_real_diopter_slit("aodM", RM, 13.5, 29.0, 1.0, "[MINUTE]*6", build_aod0_ring_m("aod0_zm", ACC, TXT, unrot_expr="[MINUTE]*6"))
 s0 = "\n".join([f'          <Group name="aod0_dim_idx" x="0" y="0" width="450" height="450" alpha="115">\n{aod0_base_h}\n' + "\n".join(aod0_base_m) + "\n          </Group>", aod0_lens_h, aod0_lens_m])
 
 # --- AOD 1: Triple Monolith Slits ---
