@@ -4,7 +4,18 @@ Long-press the watch face, then tap **Customize** (the pencil / gear).
 
 ## Presets (flavors)
 
-Three one-tap presets are included: **Dual orbit lenses** (default), **Triple monolith slits**, and **Eclipse glass ring**.
+Three one-tap presets are included: **Classic Three Lens** *(default)*, **Hidden Index Reveal**, and **Liquid Glass Blob**.
+
+## Dial Style (`dial_style`, 3 options)
+
+- **Classic Three Lens** *(default)*: keeps all three stationary concentric index rings visible on pure black (or theme/photo background) with three smooth-gliding pure-glass diopter slits
+- **Hidden Index Reveal**: hides the concentric numerals behind subtle dark orbital tracks so numbers only emerge and magnify inside the orbiting glass diopter slits
+- **Liquid Glass Blob**: displays a machined circular-azurage horological dial (`dial_machined`) with micro-dot index pips, a connected tri-lobed crystal-clear glass silhouette anchored at the center jewel, and watch-font (`GoogleSansRounded`) **Day/Date** and curved **Battery %** telemetry cleanly placed between the Hour and Minute rings
+
+## Custom Photo & Background (`bg_mode` + `<PhotosConfiguration>`)
+
+- **Background**: **Pure black** *(default)*, **Theme color**, or **Custom photo**
+- **Custom Photo Picker (`bg_photo`)**: choose any personal picture from the Wear / Galaxy Wearable watch face editor; rendered full-bleed with a subtle legibility scrim under crystal-clear glass (with zero milky white tint)
 
 ## Theme (17 options)
 
@@ -37,7 +48,6 @@ Each ring has its own independent **weight** and **width** setting:
 ## Additional Options
 
 - **Hours orientation**: *Upright* (default), *Radial*, *Pointing*
-- **Background**: *Theme color* (default), *Pure black*
 - **Diopter refraction**: *Subtle*, *Balanced*, *Exaggerated* (default)
 - **Always-on brightness**: *Dim* (default), *Normal*
 

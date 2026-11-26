@@ -8,7 +8,7 @@
         android:allowBackup="false">
         <property
             android:name="com.google.wear.watchface.format.version"
-            android:value="3" />
+            android:value="4" />
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />

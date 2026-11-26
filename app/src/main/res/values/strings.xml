@@ -19,6 +19,14 @@
     <string name="pal_m3green">M3 Green</string>
     <string name="pal_m3rose">M3 Rose</string>
     <string name="pal_m3amber">M3 Amber</string>
+    <string name="cfg_dial_style">Dial style</string>
+    <string name="dial_style_0">Classic Three Lens</string>
+    <string name="dial_style_1">Hidden Index Reveal</string>
+    <string name="dial_style_2">Liquid Glass Blob</string>
+    <string name="cfg_bg_mode">Background</string>
+    <string name="bg_mode_0">Pure black</string>
+    <string name="bg_mode_1">Theme color</string>
+    <string name="bg_mode_2">Custom photo</string>
     <string name="cfg_h_weight">Hours weight</string>
     <string name="h_weight_0">Thin</string>
     <string name="h_weight_1">Extra light</string>
@@ -65,9 +73,6 @@
     <string name="hour_mode_0">Upright</string>
     <string name="hour_mode_1">Radial</string>
     <string name="hour_mode_2">Pointing</string>
-    <string name="cfg_bg_mode">Background</string>
-    <string name="bg_mode_0">Theme color</string>
-    <string name="bg_mode_1">Pure black</string>
     <string name="cfg_glass_str">Diopter refraction</string>
     <string name="glass_str_0">Subtle</string>
     <string name="glass_str_1">Balanced</string>
