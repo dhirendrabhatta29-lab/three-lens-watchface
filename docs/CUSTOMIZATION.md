@@ -15,7 +15,7 @@ Three one-tap presets are included: **Classic Three Lens** *(default)*, **Hidden
 ## Custom Photo & Background (`bg_mode` + `<PhotosConfiguration>`)
 
 - **Background**: **Pure black** *(default)*, **Theme color**, or **Custom photo**
-- **Custom Photo Picker (`bg_photo`)**: choose any personal picture from the Wear / Galaxy Wearable watch face editor; rendered full-bleed with a subtle legibility scrim under crystal-clear glass (with zero milky white tint)
+- **Custom Photo Picker (`bg_photo`)**: choose any personal picture from the Wear / Galaxy Wearable watch face editor; rendered full-bleed with a smooth dark radial vignette (`bg_photo_vignette`) for time legibility under pure colorless optical glass (`1.16×` zoom across numerals and photo)
 
 ## Theme (17 options)
 

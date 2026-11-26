@@ -4,48 +4,62 @@
     "y": 121,
     "w": 57,
     "h": 84,
-    "bytes": 4236
+    "bytes": 4208
   },
   "glass_slit_m": {
     "x": 204,
     "y": 57,
     "w": 47,
     "h": 77,
-    "bytes": 3320
+    "bytes": 3289
   },
   "glass_slit_s": {
     "x": 205,
     "y": 10,
     "w": 45,
     "h": 66,
-    "bytes": 3024
+    "bytes": 3002
   },
   "glass_hub": {
     "x": 201,
     "y": 202,
     "w": 53,
     "h": 53,
-    "bytes": 3769
+    "bytes": 3694
   },
   "glass_arm_h": {
     "x": 193,
     "y": 129,
     "w": 69,
     "h": 90,
-    "bytes": 7566
+    "bytes": 7472
   },
   "glass_arm_m": {
     "x": 197,
     "y": 65,
     "w": 61,
     "h": 154,
-    "bytes": 7520
+    "bytes": 7536
   },
   "glass_arm_s": {
     "x": 199,
     "y": 14,
     "w": 57,
     "h": 205,
-    "bytes": 7063
+    "bytes": 6996
+  },
+  "glass_bridge_hm": {
+    "x": 195,
+    "y": 98,
+    "w": 65,
+    "h": 55,
+    "bytes": 4238
+  },
+  "glass_bridge_ms": {
+    "x": 199,
+    "y": 45,
+    "w": 57,
+    "h": 42,
+    "bytes": 3276
   }
 }

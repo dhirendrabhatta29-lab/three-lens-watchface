@@ -1,18 +1,17 @@
 # Changelog
 
+## 1.3
+- **True Static Indexes + Smooth `1.16×` Optical Zoom (Zero Number Popping)**: removed per-numeral visibility thresholds in `z_ringM` and `z_ringS` across all 3 dial modes (*Classic Three Lens*, *Hidden Index Reveal*, *Liquid Glass Blob*). All numerals stay completely static (`alpha="255"`) while the glass aperture zooms (`scaleX="1.16" scaleY="1.16"`) and glides smoothly over both the index rings and any user-selected photo
+- **100% Pure Colorless Glass Lenses**: stripped all prebaked cyan/blue dispersion tints and milky white fills from every active and AOD lens sprite (`glass_slit_*`, `glass_arm_*`, `glass_bridge_*`, `glass_hub`, and AOD monolith/eclipse optics)—leaving crystal-clear interiors with neutral refractive dark grooves and specular Fresnel edge rims
+- **Dimmed Radial Vignette for Custom Photos**: added `bg_photo_vignette.png` over user-selected `<PhotosConfiguration>` backgrounds so time remains effortlessly legible across bright wallpapers
+- **Fixed Always-On Display Across All Dial Modes**: rebuilt AOD Style 0 (*Dual orbit lenses*) with lightweight pure-vector OLED black capsules and dynamic counter-rotated `[HOUR_1_12]` / `[MINUTE_Z]` templates (zero `renderMode="MASK"` / `<PartImage>` / theme-bleed issues)
+- **Liquid Glass Blob Proximity Merge Bridges**: added `blob_merge_hm` and `blob_merge_ms` colorless meniscus bridges driven by angular proximity (`clamp(1 - abs(delta) / 26.0, 0, 1)`) so lobes merge and separate smoothly as they pass each other
+
 ## 1.2
-- **Upgraded to Watch Face Format v4 (`minSdk = 36`)**: added native `<PhotosConfiguration>` support so users can select any custom background photo alongside *Pure black* (default) and *Theme color*
-- **Three Selectable Dial Styles (`dial_style`)**:
-  - **Classic Three Lens** *(default)*: stationary concentric Hour, Minute, and Second rings with pure-black background and smooth-gliding optical diopter slits
-  - **Hidden Index Reveal**: hidden stationary indexes over subtle orbital tracks that smoothly emerge and magnify inside the orbiting diopters
-  - **Liquid Glass Blob**: machined radial-sunburst & circular-azurage horological dial with micro-dot index pips, a single connected tri-lobed liquid glass silhouette, and watch-font (`GoogleSansRounded`) Day/Date (`[DAY_OF_WEEK_S] [DAY]`) and dynamic `[BATTERY_PERCENT]` arc telemetry positioned symmetrically between the Hour and Minute tracks (no dial text branding)
-- **Pure Crystal-Clear Apple-Style Liquid Glass**: removed all milky white interior fills; replaced glass optics across active and AOD modes with transparent crystal interiors featuring cyan/aqua chromatic edge dispersion, dark refractive grooves, and Fresnel specular highlights (`Kyant0/AndroidLiquidGlass` style)
-- **Official Static Google Sans Rounded Fonts**: instantiated all 6 true static weights (`Thin 140`, `ExtraLight 260`, `Light 380`, `Medium 530`, `Bold 700`, `Black 900`) directly from `GoogleSansRounded-Regular.ttf`
+- Upgraded to Watch Face Format v4 (`minSdk = 36`) with native `<PhotosConfiguration>` custom photo support, 3 selectable dial styles, true static `GoogleSansRounded` weights, and watch-font Day/Date + `[BATTERY_PERCENT]` arc telemetry
 
 ## 1.1
-- **Smooth-gliding wider glass diopters**: Minute and Second diopters now glide continuously (`[SECOND_MILLISECOND]`) over the actual stationary index rings using counter-rotated magnified ring layers, with tight optical rim refraction
-- **Per-ring Weight & Width controls**: added individual 6-option weight and 6-option width settings for **Hours** (`h_weight`, `h_width`), **Minutes** (`m_weight`, `m_width`), and **Seconds** (`s_weight`, `s_width`)
-- **3 new exclusive AOD styles**: replaced previous AOD styles with three glass-diopter-native designs—**Dual orbit lenses**, **Triple monolith slits**, and **Eclipse glass ring**
+- Smooth-gliding continuous `[SECOND_MILLISECOND]` motion, per-ring 6-weight × 6-width controls, and 3 glass-native AOD styles
 
 ## 1.0
-- Initial release of **Three Lens Watch Face** for Galaxy Watch 7 (One UI Watch 9 / Wear OS 6, WFF v3)
+- Initial release of **Three Lens Watch Face** for Galaxy Watch 7 (One UI Watch 9 / Wear OS 6)
