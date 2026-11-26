@@ -4,38 +4,29 @@ Long-press the watch face, then tap **Customize** (the pencil / gear).
 
 ## Presets (flavors)
 
-Five one-tap presets are included: **Three lenses** (default), **Chunky stack**, **Activity rings**, **Minutes pie**, and **Minimal slit**.
+Three one-tap presets are included: **Dual orbit lenses** (default), **Triple monolith slits**, and **Eclipse glass ring**.
 
 ## Theme (17 options)
 
 Sets the dial background, bezel, primary numeral ink, dimmed index ink, and seconds accent color:
+*Mono* (default), *OLED Black*, *Metro*, *Catppuccin*, *Gruvbox*, *Nord*, *Tokyo Night*, *Dracula*, *Rosé Pine*, *Everforest*, *Solarized*, *M3 Purple*, *M3 Blue*, *M3 Teal*, *M3 Green*, *M3 Rose*, *M3 Amber*.
 
-- Mono *(default)*
-- OLED Black
-- Metro
-- Catppuccin
-- Gruvbox
-- Nord
-- Tokyo Night
-- Dracula
-- Rosé Pine
-- Everforest
-- Solarized
-- M3 Purple, M3 Blue, M3 Teal, M3 Green, M3 Rose, M3 Amber
+## Per-Ring Typography (6 Weights × 6 Widths Individually for Hours, Minutes, and Seconds)
 
-## Options
+Each ring has its own independent **weight** and **width** setting:
+- **Hours weight** & **Hours width**
+- **Minutes weight** & **Minutes width**
+- **Seconds weight** & **Seconds width**
 
-### Font weight (6 options)
-
+### Weight options (6)
 - Thin (`100`)
 - Extra light (`200`)
 - Light (`300`)
 - Medium (`500`)
-- Bold (`700`, *default*)
+- Bold (`700`)
 - Black (`900`)
 
-### Font width (6 options)
-
+### Width options (6)
 - Ultra condensed (`0.74×`)
 - Condensed (`0.86×`)
 - Normal (`1.00×`, *default*)
@@ -43,39 +34,17 @@ Sets the dial background, bezel, primary numeral ink, dimmed index ink, and seco
 - Expanded (`1.26×`)
 - Ultra expanded (`1.40×`)
 
-### Hours orientation
+## Additional Options
 
-- Upright *(default)*
-- Radial
-- Pointing
+- **Hours orientation**: *Upright* (default), *Radial*, *Pointing*
+- **Background**: *Theme color* (default), *Pure black*
+- **Diopter refraction**: *Subtle*, *Balanced*, *Exaggerated* (default)
+- **Always-on brightness**: *Dim* (default), *Normal*
 
-### Min/Sec orientation
-
-- Radial *(default)*
-- Pointing
-
-### Background
-
-- Theme color *(default)*
-- Pure black
-
-### Diopter refraction
-
-- Subtle
-- Balanced
-- Strong *(default)*
-
-### Always-on style (5 options)
+## Always-On Display Styles (3 Exclusive Glass Designs)
 
 | Style | Description |
 | --- | --- |
-| Three lenses *(default)* | sparse 12-hour and 5-minute index with moving Hour & Minute frameless glass diopter slits |
-| Chunky stack | smaller filled bold Hour over a huge chunky outline bold Minute + uppercase date |
-| Activity rings | three full-360° bold concentric rings (Steps, Calories, Active Time) around a chunky Hour & outline Minute |
-| Minutes pie | streamlined radial wedge + chunky Hour & outline Minute + centered live step count |
-| Minimal slit | frameless glass slit framing chunky Hour, outline Minute, and date |
-
-### Always-on brightness
-
-- Dim *(default)*
-- Normal
+| Dual orbit lenses *(default)* | dimmed stationary Hour and Minute index rings with wide orbiting Hour & Minute frameless glass diopter slits magnifying the active numerals and bending adjacent numerals at the edges |
+| Triple monolith slits | three horizontal frameless glass capsule slits stacked across the dial: top Hour slit with flanking hours, wide middle Minute slit with `m-1` and `m+1` refracting inside the glass edges, and bottom Day/Date slit |
+| Eclipse glass ring | an orbiting `110°` crescent glass ring lens illuminating the active arc of the stationary minute index around a central circular glass diopter orb |

@@ -1,9 +1,9 @@
 # Changelog
 
+## 1.1
+- **Smooth-gliding wider glass diopters**: Minute and Second diopters now glide continuously (`[SECOND_MILLISECOND]`) over the actual stationary index rings using counter-rotated magnified ring layers (`lens_mag` + `lens_unrot`), with wider lens apertures (`51×78`, `41×69`, `35×55`) so adjacent numerals bend and refract at the edges of the glass
+- **Per-ring Weight & Width controls**: added individual 6-option weight and 6-option width settings for **Hours** (`h_weight`, `h_width`), **Minutes** (`m_weight`, `m_width`), and **Seconds** (`s_weight`, `s_width`)
+- **3 new exclusive AOD styles**: replaced previous AOD styles with three glass-diopter-native designs—**Dual orbit lenses**, **Triple monolith slits**, and **Eclipse glass ring**
+
 ## 1.0
 - Initial release of **Three Lens Watch Face** for Galaxy Watch 7 (One UI Watch 9 / Wear OS 6, WFF v3)
-- Three stationary concentric numeral & batched `<Line>` tick rings (Hours `1..12`, Minutes `00..59`, Seconds `00..59`)
-- Three orbiting frameless optical glass diopter slits (`renderMode="MASK"`) with caustic refraction, edge vignette, meniscus sheen, and `1.65×` / `2.15×` / `1.90×` magnification
-- 6 Font Weight options (*Thin*, *Extra light*, *Light*, *Medium*, *Bold*, *Black*) and 6 Font Width options (*Ultra condensed* through *Ultra expanded*)
-- Configurable numeral orientations (*Upright*, *Radial*, *Pointing*) and 17 color themes
-- 5 OLED burn-in-safe Always-On Display styles (*Three lenses*, *Chunky stack*, *Activity rings*, *Minutes pie*, *Minimal slit*) with `±4px` 5×5 pixel shifting and capped ambient luminance
